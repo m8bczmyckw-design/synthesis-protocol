@@ -3,28 +3,32 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#00160d" />
+  <meta name="theme-color" content="#020806" />
   <title>SYNTHESIS PROTOCOL</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="matrixCanvas" aria-hidden="true"></canvas>
-  <canvas id="scanCanvas" aria-hidden="true"></canvas>
+  <canvas id="bodyCanvas" aria-hidden="true"></canvas>
 
   <div class="noise" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
+  <div class="alarm hidden" id="alarm" aria-hidden="true"></div>
 
-  <main class="shell" id="shell">
-    <section class="hud-panel boot" id="bootScreen">
-      <div class="top-bar">
-        <span>SYNTHESIS PROTOCOL</span>
-        <span>STATUS: AWAKENING</span>
-      </div>
+  <main class="terminal" id="terminal">
+    <header class="global-hud">
+      <span>SYNTHESIS PROTOCOL</span>
+      <span id="clock">00:00:00</span>
+      <span id="statusText">SIGNAL: DORMANT</span>
+    </header>
 
-      <div class="brand glitch" data-text="SYNTHESIS PROTOCOL">SYNTHESIS PROTOCOL</div>
+    <section class="panel boot" id="bootScreen">
+      <div class="corner corner-a"></div><div class="corner corner-b"></div>
+      <p class="kicker">UNAUTHORIZED NEURAL CHANNEL</p>
+      <h1 class="brand glitch" data-text="SYNTHESIS PROTOCOL">SYNTHESIS PROTOCOL</h1>
       <p class="subtitle" id="bootText"></p>
-
+      <div class="boot-log" id="bootLog"></div>
       <button class="primary-btn" id="startBtn" type="button">ابدأ التهيئة</button>
 
       <div class="audio-box">
@@ -33,49 +37,37 @@
           <source src="crimewave.mp3" type="audio/mpeg" />
           المتصفح لا يدعم تشغيل الصوت.
         </audio>
-        <small>ضع ملفك باسم <b>crimewave.mp3</b> بجانب ملفات المشروع.</small>
+        <small>ضع ملفًا باسم <b>crimewave.mp3</b> بجانب ملفات المشروع لتشغيله.</small>
       </div>
     </section>
 
-    <section class="hud-panel hidden" id="questionScreen">
-      <div class="top-bar">
+    <section class="panel hidden" id="questionScreen">
+      <div class="corner corner-a"></div><div class="corner corner-b"></div>
+      <div class="question-head">
         <span id="stepLabel">QUESTION 01 / 07</span>
         <span id="pulseLabel">NEURAL LINK: 00%</span>
       </div>
+      <div class="progress"><span id="progressFill"></span></div>
 
-      <div class="progress">
-        <span id="progressFill"></span>
-      </div>
-
-      <div class="question-grid">
-        <div class="question-zone">
-          <p class="mini-label">IDENTITY EXTRACTION</p>
-          <h1 id="questionTitle"></h1>
+      <div class="layout">
+        <article class="question-zone">
+          <p class="kicker">IDENTITY EXTRACTION</p>
+          <h2 id="questionTitle"></h2>
           <p id="questionText" class="question-text"></p>
           <div id="answers" class="answers"></div>
-        </div>
+        </article>
 
-        <aside class="body-hud" aria-label="digital body scanner">
-          <div class="human-scan">
-            <div class="head"></div>
-            <div class="torso"></div>
-            <div class="arm left"></div>
-            <div class="arm right"></div>
-            <div class="leg left"></div>
-            <div class="leg right"></div>
-            <div class="core"></div>
-          </div>
-          <p>BIOMETRIC MAP</p>
+        <aside class="scanner">
+          <p>BIOMETRIC SHADOW</p>
+          <div class="scanner-window"><canvas id="miniBodyCanvas"></canvas></div>
           <span id="scanStatus">organic signal detected</span>
         </aside>
       </div>
     </section>
 
-    <section class="hud-panel hidden ending" id="endingScreen">
-      <div class="top-bar">
-        <span>PROTOCOL COMPLETE</span>
-        <span>HUMAN / MACHINE: MERGED</span>
-      </div>
+    <section class="panel hidden ending" id="endingScreen">
+      <div class="corner corner-a"></div><div class="corner corner-b"></div>
+      <p class="kicker">FINAL CONVERSION</p>
       <h2 class="glitch" data-text="التهيئة اكتملت">التهيئة اكتملت</h2>
       <p id="endingText"></p>
       <div class="final-code" id="finalCode">SYNTHESIS://READY</div>

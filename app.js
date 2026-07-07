@@ -1,99 +1,89 @@
-const bootScreen = document.getElementById('bootScreen');
-const questionScreen = document.getElementById('questionScreen');
-const endingScreen = document.getElementById('endingScreen');
-const bootText = document.getElementById('bootText');
-const startBtn = document.getElementById('startBtn');
-const restartBtn = document.getElementById('restartBtn');
-const questionTitle = document.getElementById('questionTitle');
-const questionText = document.getElementById('questionText');
-const answers = document.getElementById('answers');
-const stepLabel = document.getElementById('stepLabel');
-const pulseLabel = document.getElementById('pulseLabel');
-const progressFill = document.getElementById('progressFill');
-const scanStatus = document.getElementById('scanStatus');
-const endingText = document.getElementById('endingText');
-const finalCode = document.getElementById('finalCode');
-const crimewave = document.getElementById('crimewave');
+(() => {
+  const $ = id => document.getElementById(id);
+  const questions = window.SYNTHESIS_QUESTIONS;
+  let index = 0;
+  let score = [];
 
-let current = 0;
-let memory = [];
+  const bootScreen = $('bootScreen');
+  const questionScreen = $('questionScreen');
+  const endingScreen = $('endingScreen');
+  const startBtn = $('startBtn');
+  const restartBtn = $('restartBtn');
 
-const bootMessage = 'تم فتح قناة عصبية غير مصرح بها. النظام سيطرح سبعة أسئلة لقياس قابلية الوعي للاندماج. لا تبحث عن الإجابة الصحيحة. ابحث عن النسخة التي تخاف أن تكونها.';
-const endingMessage = 'تم جمع النمط. لم يعد الجسد مركز التجربة. أنت الآن إشارة تعبر بين اللحم، الرمز، والمدينة. لا يوجد خروج من الشبكة؛ يوجد فقط وعي أعلى بطريقة السجن.';
-
-function pad(number) {
-  return String(number).padStart(2, '0');
-}
-
-function showOnly(screen) {
-  [bootScreen, questionScreen, endingScreen].forEach((item) => item.classList.add('hidden'));
-  screen.classList.remove('hidden');
-}
-
-async function boot() {
-  await Typewriter.write(bootText, bootMessage, 22);
-}
-
-function updateHud() {
-  const percent = Math.round((current / QUESTIONS.length) * 100);
-  stepLabel.textContent = `QUESTION ${pad(current + 1)} / 07`;
-  pulseLabel.textContent = `NEURAL LINK: ${pad(percent)}%`;
-  progressFill.style.width = `${percent}%`;
-  scanStatus.textContent = memory.length ? `last imprint: ${memory[memory.length - 1].slice(0, 18)}...` : 'organic signal detected';
-}
-
-async function renderQuestion() {
-  const q = QUESTIONS[current];
-  answers.innerHTML = '';
-  updateHud();
-  Effects.glitch();
-
-  await Typewriter.write(questionTitle, q.title, 24);
-  await Typewriter.write(questionText, q.text, 18);
-
-  q.answers.forEach((answer, index) => {
-    const btn = document.createElement('button');
-    btn.className = 'answer-btn';
-    btn.type = 'button';
-    btn.textContent = `${pad(index + 1)} — ${answer}`;
-    btn.addEventListener('click', () => choose(answer));
-    answers.appendChild(btn);
-  });
-}
-
-function choose(answer) {
-  memory.push(answer);
-  current += 1;
-  Effects.glitch();
-
-  if (current >= QUESTIONS.length) {
-    finish();
-  } else {
-    renderQuestion();
+  function clock() {
+    $('clock').textContent = new Date().toLocaleTimeString('en-GB');
+    requestAnimationFrame(clock);
   }
-}
 
-async function finish() {
-  showOnly(endingScreen);
-  progressFill.style.width = '100%';
-  Effects.scrambleCode(finalCode);
-  await Typewriter.write(endingText, endingMessage, 24);
-}
+  async function intro() {
+    Effects.bootLog([
+      'neural socket opened',
+      'matrix rain synchronized',
+      'human residue detected',
+      'crimewave terminal standing by',
+      'awaiting consent...'
+    ]);
+    await typeText($('bootText'), 'تم فتح قناة عصبية غير مصرّح بها. النظام سيطرح سبعة أسئلة لقياس قابلية الوعي للاندماج. لا تجب بسرعة. كل اختيار يترك أثرًا.', 24);
+  }
 
-startBtn.addEventListener('click', () => {
-  showOnly(questionScreen);
-  current = 0;
-  memory = [];
-  if (crimewave && crimewave.paused) crimewave.play().catch(() => {});
-  renderQuestion();
-});
+  function swap(from, to) {
+    from.classList.add('hidden');
+    to.classList.remove('hidden');
+    Effects.glitch();
+  }
 
-restartBtn.addEventListener('click', () => {
-  current = 0;
-  memory = [];
-  showOnly(bootScreen);
-  Effects.glitch();
-  boot();
-});
+  async function showQuestion() {
+    const q = questions[index];
+    const progress = index / questions.length;
+    $('stepLabel').textContent = `QUESTION ${String(index + 1).padStart(2, '0')} / 07`;
+    $('pulseLabel').textContent = `NEURAL LINK: ${Math.round(progress * 100)}%`;
+    $('progressFill').style.width = `${progress * 100}%`;
+    $('scanStatus').textContent = progress < .5 ? 'organic signal unstable' : 'synthetic pattern rising';
+    window.drawMiniBody(progress);
 
-boot();
+    $('questionTitle').textContent = '';
+    $('questionText').textContent = '';
+    $('answers').innerHTML = '';
+    await typeText($('questionTitle'), q.title, 34);
+    await typeText($('questionText'), q.text, 24);
+
+    q.answers.forEach((answer, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'answer-btn';
+      btn.type = 'button';
+      btn.textContent = answer;
+      btn.onclick = () => choose(i);
+      $('answers').appendChild(btn);
+    });
+  }
+
+  function choose(choice) {
+    score.push(choice);
+    Effects.glitch(320);
+    index += 1;
+    if (index >= questions.length) return finish();
+    setTimeout(showQuestion, 360);
+  }
+
+  async function finish() {
+    $('progressFill').style.width = '100%';
+    $('pulseLabel').textContent = 'NEURAL LINK: 100%';
+    swap(questionScreen, endingScreen);
+    const dominant = score.reduce((a, b) => a + b, 0);
+    const code = dominant < 5 ? 'HUMAN_ECHO' : dominant < 10 ? 'HYBRID_SIGNAL' : 'MACHINE_ASCENT';
+    $('finalCode').textContent = `SYNTHESIS://${code}`;
+    await typeText($('endingText'), 'انتهت المحاكاة. لم تعد الإجابات مجرد اختيارات؛ أصبحت خريطة داخلية. النظام لا يقول إنك تحولت. النظام يقول إنك كنت في طريقك إلى ذلك منذ البداية.', 30);
+  }
+
+  startBtn.onclick = async () => {
+    const audio = $('crimewave');
+    try { await audio.play(); } catch(e) {}
+    $('statusText').textContent = 'SIGNAL: ACTIVE';
+    swap(bootScreen, questionScreen);
+    showQuestion();
+  };
+
+  restartBtn.onclick = () => location.reload();
+  clock();
+  intro();
+})();

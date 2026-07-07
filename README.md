@@ -2,31 +2,21 @@
 
 تجربة ويب تفاعلية بثيمة Transhumanism / Matrix / Cyberpunk.
 
+## التشغيل
+افتح `index.html` مباشرة أو ارفعه على GitHub Pages.
+
 ## الملفات
+- `index.html` الهيكل الرئيسي
+- `style.css` التصميم والتأثيرات
+- `matrix.js` خلفية Matrix وCanvas الجسد الرقمي
+- `typewriter.js` الكتابة حرفًا حرفًا
+- `questions.js` الأسئلة السبعة
+- `effects.js` تأثيرات Glitch وBoot Log
+- `app.js` منطق التجربة
 
-- `index.html`
-- `style.css`
-- `matrix.js`
-- `typewriter.js`
-- `questions.js`
-- `effects.js`
-- `app.js`
-
-## تشغيل CrimeWave
-
+## CrimeWave
 ضع ملف الصوت بجانب الملفات باسم:
 
-```text
-crimewave.mp3
-```
+`crimewave.mp3`
 
-سيظهر داخل المشغل الصوتي في الصفحة.
-
-## GitHub Pages
-
-1. ارفع كل الملفات في مستودع GitHub.
-2. من Settings > Pages.
-3. اختر Branch: `main` و Folder: `/root`.
-4. افتح رابط GitHub Pages.
-
-لا يستخدم React ولا أي مكتبات خارجية.
+ثم سيظهر داخل المشغل تلقائيًا.
