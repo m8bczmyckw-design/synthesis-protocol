@@ -1,13 +1,1 @@
-window.typeText = function typeText(element, text, speed = 28) {
-  return new Promise(resolve => {
-    element.textContent = '';
-    let i = 0;
-    const tick = () => {
-      element.textContent += text.charAt(i);
-      i += 1;
-      if (i < text.length) setTimeout(tick, speed + Math.random() * 24);
-      else resolve();
-    };
-    tick();
-  });
-};
+window.typeText=(el,text,speed=22)=>new Promise(r=>{el.textContent='';let i=0;(function tick(){el.textContent+=text[i++]||'';if(i<=text.length)setTimeout(tick,speed);else r()})()});
