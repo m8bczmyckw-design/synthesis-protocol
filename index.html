@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#00160d" />
+  <title>SYNTHESIS PROTOCOL</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="matrixCanvas" aria-hidden="true"></canvas>
+  <canvas id="scanCanvas" aria-hidden="true"></canvas>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <main class="shell" id="shell">
+    <section class="hud-panel boot" id="bootScreen">
+      <div class="top-bar">
+        <span>SYNTHESIS PROTOCOL</span>
+        <span>STATUS: AWAKENING</span>
+      </div>
+
+      <div class="brand glitch" data-text="SYNTHESIS PROTOCOL">SYNTHESIS PROTOCOL</div>
+      <p class="subtitle" id="bootText"></p>
+
+      <button class="primary-btn" id="startBtn" type="button">ابدأ التهيئة</button>
+
+      <div class="audio-box">
+        <p>CrimeWave Terminal</p>
+        <audio id="crimewave" controls preload="none">
+          <source src="crimewave.mp3" type="audio/mpeg" />
+          المتصفح لا يدعم تشغيل الصوت.
+        </audio>
+        <small>ضع ملفك باسم <b>crimewave.mp3</b> بجانب ملفات المشروع.</small>
+      </div>
+    </section>
+
+    <section class="hud-panel hidden" id="questionScreen">
+      <div class="top-bar">
+        <span id="stepLabel">QUESTION 01 / 07</span>
+        <span id="pulseLabel">NEURAL LINK: 00%</span>
+      </div>
+
+      <div class="progress">
+        <span id="progressFill"></span>
+      </div>
+
+      <div class="question-grid">
+        <div class="question-zone">
+          <p class="mini-label">IDENTITY EXTRACTION</p>
+          <h1 id="questionTitle"></h1>
+          <p id="questionText" class="question-text"></p>
+          <div id="answers" class="answers"></div>
+        </div>
+
+        <aside class="body-hud" aria-label="digital body scanner">
+          <div class="human-scan">
+            <div class="head"></div>
+            <div class="torso"></div>
+            <div class="arm left"></div>
+            <div class="arm right"></div>
+            <div class="leg left"></div>
+            <div class="leg right"></div>
+            <div class="core"></div>
+          </div>
+          <p>BIOMETRIC MAP</p>
+          <span id="scanStatus">organic signal detected</span>
+        </aside>
+      </div>
+    </section>
+
+    <section class="hud-panel hidden ending" id="endingScreen">
+      <div class="top-bar">
+        <span>PROTOCOL COMPLETE</span>
+        <span>HUMAN / MACHINE: MERGED</span>
+      </div>
+      <h2 class="glitch" data-text="التهيئة اكتملت">التهيئة اكتملت</h2>
+      <p id="endingText"></p>
+      <div class="final-code" id="finalCode">SYNTHESIS://READY</div>
+      <button class="primary-btn" id="restartBtn" type="button">إعادة التشغيل</button>
+    </section>
+  </main>
+
+  <script src="matrix.js"></script>
+  <script src="typewriter.js"></script>
+  <script src="questions.js"></script>
+  <script src="effects.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
