@@ -3,28 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#020806" />
-  <title>SYNTHESIS PROTOCOL</title>
+  <meta name="theme-color" content="#010705" />
+  <title>SYNTHESIS PROTOCOL V3</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <canvas id="matrixCanvas" aria-hidden="true"></canvas>
   <canvas id="bodyCanvas" aria-hidden="true"></canvas>
-
+  <div class="fog" aria-hidden="true"></div>
   <div class="noise" aria-hidden="true"></div>
   <div class="vignette" aria-hidden="true"></div>
   <div class="scanlines" aria-hidden="true"></div>
   <div class="alarm hidden" id="alarm" aria-hidden="true"></div>
 
+  <section class="boot-overlay" id="bootOverlay">
+    <div class="boot-card">
+      <b>SYNTHESIS PROTOCOL</b>
+      <p id="bootOverlayText">INITIALIZING NEURAL INTERFACE...</p>
+      <div class="loadbar"><span id="bootBar"></span></div>
+      <small id="bootPercent">00%</small>
+    </div>
+  </section>
+
   <main class="terminal" id="terminal">
     <header class="global-hud">
-      <span>SYNTHESIS PROTOCOL</span>
-      <span id="clock">00:00:00</span>
       <span id="statusText">SIGNAL: DORMANT</span>
+      <span id="clock">00:00:00</span>
+      <span>SYNTHESIS PROTOCOL</span>
     </header>
 
     <section class="panel boot" id="bootScreen">
       <div class="corner corner-a"></div><div class="corner corner-b"></div>
+      <div class="signal-grid">
+        <span>NEURAL PORT: OPEN</span><span>HOST: UNKNOWN</span><span>SYNC: WAITING</span>
+      </div>
       <p class="kicker">UNAUTHORIZED NEURAL CHANNEL</p>
       <h1 class="brand glitch" data-text="SYNTHESIS PROTOCOL">SYNTHESIS PROTOCOL</h1>
       <p class="subtitle" id="bootText"></p>
